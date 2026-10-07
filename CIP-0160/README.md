@@ -76,35 +76,51 @@ address schemas are unchanged.
 
 ### Receiving domain and redeemer indexes
 
-For each transaction body, including each nested body, derive:
+The per-output model below is this amendment's proposed implementation
+reconciliation of the [existing per-output validation rule](https://github.com/cardano-foundation/CIPs/blob/b4a593c960f2751fef2ddc8df28bec7b22c68eb5/CIP-0160/README.md#receiving-validation-rule)
+and [the Ledger WG suggestion to resolve a TxOut into the purpose](https://github.com/cardano-foundation/CIPs/pull/1063#issuecomment-3222306948).
+Those sources support individual output execution and visibility. The precise
+raw-index mapping and Data fields proposed here still require upstream review;
+the cited discussion does not establish approval of those formats or activation.
+
+For each transaction body, including each nested body, enumerate all ordinary
+outputs in authored order before selecting protected script outputs:
 
 ```text
-receivingScriptHashes(body) = ascendingUnique
-  [paymentScriptHash(output.address)
-   | output <- body.ordinaryOutputs, output.address.isProtected]
+receivingScriptTargets(body) =
+  [(originalIndex, paymentScriptHash(output.address))
+   | (originalIndex, output) <- enumerate body.ordinaryOutputs,
+     output.address.isProtected,
+     output.address.paymentCredential is a script]
 receivingKeyHashes(body) = unique
   [paymentKeyHash(output.address)
    | output <- body.ordinaryOutputs, output.address.isProtected]
 ```
 
-Script hashes sort by their canonical bytes. This domain includes native and
-Plutus script hashes; a protected key occupies no script position. Witness
-contents or script language cannot change an index. An unprotected output is
-outside the domain, including when its payment hash matches a protected output.
-No target list is added to transaction serialization.
+The index is the raw original zero-based position in that body's ordinary output
+sequence. It is not a filtered-target rank or a sorted-script-hash rank. Ordinary,
+key and native outputs retain their sequence positions; filtering does not
+compress indexes. Script witness contents or language cannot renumber outputs.
+An unprotected output creates no Receiving obligation, even when its payment
+hash matches a protected output. No target list is added to transaction bytes.
 
-There is one Receiving authorization per distinct protected payment script
-hash per body, covering all ordinary protected outputs at that hash, including
-outputs with different staking credentials. A script must inspect every
-relevant output. `txInfoOutputs` retains authored order; grouping does not
-reorder it. A redeemer can refer to original output positions for per-output
-instructions. The same hash in two bodies has two independent purposes and
-redeemers.
+Every protected Plutus output requires a separate Receiving execution, redeemer
+and execution budget, including outputs sharing the same script hash, different
+staking credentials, or byte-identical contents. Success for one output does not
+authorize another output. Native scripts use existing phase-1 authorization and
+require no Plutus Receiving redeemer. Script/key witness availability may
+normally deduplicate hashes; execution identity is the individual output.
 
-The ledger purpose carries a script hash in item form and its zero-based rank
-in this body-local domain in redeemer-pointer form. Forward and inverse pointer
-lookup are exact partial inverses. Out-of-domain indexes and extra redeemers
-are invalid under existing witness/redeemer checks.
+Ledger purpose item and redeemer-pointer views carry the original `Word32`
+output index. Forward/inverse lookup verifies that index resolves to a protected
+script output in the same body; the resolved item/pointer pair retains that
+index in both fields. Never infer an index from the first equal TxOut: identical
+duplicates remain distinct occurrences. Out-of-range, ordinary/key-output and
+native-only redeemers are invalid under existing witness/exact-redeemer checks.
+
+The same script hash and index in a parent and child body have independent
+purposes, redeemers and budgets. Each Receiving context exposes the specific
+output resolved at its index. `txInfoOutputs` retains authored order.
 
 ### Creation witnesses
 
@@ -139,16 +155,19 @@ domain. Receiving key witnesses do not implicitly add explicit guards.
 
 ### Receiving-aware script contexts
 
-Extend the receiving-aware language's ScriptPurpose with `Receiving ScriptHash`.
-For the proposed V4 context, extend ScriptInfo with `ReceivingScript`, retaining
-the executing hash in `scriptContextScriptHash`. Existing V4 purposes, including
+Extend the receiving-aware language's ScriptPurpose with
+`Receiving ScriptHash Integer`, retaining the executing hash first and the raw
+original body-local output index second. For proposed V4, extend ScriptInfo with
+`ReceivingScript Integer TxOut`, exposing the original index and the exact
+resolved output. Retain the executing hash in `scriptContextScriptHash`.
+Existing V4 purposes, including
 Guarding, remain available. `txInfoRedeemers` includes Receiving entries.
 
 Preserve protection in all visible translated outputs, consumed inputs,
-reference inputs and nested views, including those exposed to Guarding. There
-is no implicit resolved single output: a Receiving purpose authorizes its
-group of outputs, and the validator checks their datums, assets and staking
-credentials as required by its contract.
+reference inputs and nested views, including those exposed to Guarding. The
+Receiving validator checks its resolved output's datum, assets and staking
+credentials as required by its contract. It may inspect other visible outputs
+for wider invariants, but that does not replace their separate executions.
 
 ### Ledger redeemer tags and Plutus Data
 
@@ -170,7 +189,9 @@ Ledger CBOR tags and Plutus Data constructor indexes are separate formats.
 For the proposed receiving-aware V4, retain the existing ScriptPurpose Data
 indexes (Minting 0, Spending 1, Withdrawing 2, Certifying 3, Voting 4,
 Proposing 5, Guarding 6) and append Receiving at `7`. Retain the corresponding
-ScriptInfo indexes and append ReceivingScript at `7`. The matching numeric
+ScriptInfo indexes and append ReceivingScript at `7`. Receiving encodes as
+`Constr 7 [scriptHash, originalOutputIndex]`; ReceivingScript encodes as
+`Constr 7 [originalOutputIndex, resolvedOutput]`. The matching numeric
 Receiving indexes do not make the two complete numbering schemes identical.
 Publish independent vectors for each format.
 
@@ -218,7 +239,8 @@ Protected payment addresses and the `Receiving` script purpose let contracts pre
 Contracts opt in through address protection, without a new credential type.
 Anyone may still send to an unprotected address with the same payment hash.
 Contracts that rely on authenticated creation must verify protection during
-spending as well as inspect all protected outputs during Receiving. Protection
+spending as well as validate each specific protected output during Receiving.
+Protection
 does not automatically validate assets, datums or staking credentials, nor
 replace every protocol's state-token invariants.
 
@@ -246,7 +268,8 @@ mixed-language batch. Existing subtransaction restrictions on V1–V3 remain.
 
 Wallets, nodes, and off-chain tooling must be updated to:
 - Recognize and encode/decode protected payment addresses
-- Include `Receiving` redeemers for protected Plutus destinations
+- Include distinct output-indexed `Receiving` redeemers and budgets for every
+  protected Plutus output, including identical duplicates
 - Extend phase-2 validation to evaluate `Receiving` scripts
 
 Node software, CLI, Plutus libraries, and serialization tooling (e.g., `cardano-api`, `cardano-ledger`, `plutus-ledger-api`) would require coordinated upgrades.
