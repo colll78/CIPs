@@ -1,0 +1,104 @@
+{
+  "status": "proposed; activation not established",
+  "source_commit": "b4a593c960f2751fef2ddc8df28bec7b22c68eb5",
+  "source": "CIP-0019/README.md existing test vectors",
+  "protection_mask": "0x08",
+  "vectors": [
+    {
+      "network": "mainnet",
+      "family": 0,
+      "unprotected_bech32": "addr1qx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3n0d3vllmyqwsx5wktcd8cc3sq835lu7drv2xwl2wywfgse35a3x",
+      "protected_bech32": "addr1px2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3n0d3vllmyqwsx5wktcd8cc3sq835lu7drv2xwl2wywfgs2zvy7v",
+      "unprotected_hex": "019493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8e337b62cfff6403a06a3acbc34f8c46003c69fe79a3628cefa9c47251",
+      "protected_hex": "099493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8e337b62cfff6403a06a3acbc34f8c46003c69fe79a3628cefa9c47251"
+    },
+    {
+      "network": "mainnet",
+      "family": 1,
+      "unprotected_bech32": "addr1z8phkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gten0d3vllmyqwsx5wktcd8cc3sq835lu7drv2xwl2wywfgs9yc0hh",
+      "protected_bech32": "addr1r8phkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gten0d3vllmyqwsx5wktcd8cc3sq835lu7drv2xwl2wywfgskhqkca",
+      "unprotected_hex": "11c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f337b62cfff6403a06a3acbc34f8c46003c69fe79a3628cefa9c47251",
+      "protected_hex": "19c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f337b62cfff6403a06a3acbc34f8c46003c69fe79a3628cefa9c47251"
+    },
+    {
+      "network": "mainnet",
+      "family": 2,
+      "unprotected_bech32": "addr1yx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzerkr0vd4msrxnuwnccdxlhdjar77j6lg0wypcc9uar5d2shs2z78ve",
+      "protected_bech32": "addr19x2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzerkr0vd4msrxnuwnccdxlhdjar77j6lg0wypcc9uar5d2shse3x7rn",
+      "unprotected_hex": "219493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8ec37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f",
+      "protected_hex": "299493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8ec37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f"
+    },
+    {
+      "network": "mainnet",
+      "family": 3,
+      "unprotected_bech32": "addr1x8phkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gt7r0vd4msrxnuwnccdxlhdjar77j6lg0wypcc9uar5d2shskhj42g",
+      "protected_bech32": "addr188phkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gt7r0vd4msrxnuwnccdxlhdjar77j6lg0wypcc9uar5d2shs9y2v9z",
+      "unprotected_hex": "31c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542fc37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f",
+      "protected_hex": "39c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542fc37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f"
+    },
+    {
+      "network": "mainnet",
+      "family": 6,
+      "unprotected_bech32": "addr1vx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzers66hrl8",
+      "protected_bech32": "addr1dx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzers27erq8",
+      "unprotected_hex": "619493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8e",
+      "protected_hex": "699493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8e"
+    },
+    {
+      "network": "mainnet",
+      "family": 7,
+      "unprotected_bech32": "addr1w8phkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gtcyjy7wx",
+      "protected_bech32": "addr108phkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gtc5k273x",
+      "unprotected_hex": "71c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f",
+      "protected_hex": "79c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f"
+    },
+    {
+      "network": "testnet",
+      "family": 0,
+      "unprotected_bech32": "addr_test1qz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3n0d3vllmyqwsx5wktcd8cc3sq835lu7drv2xwl2wywfgs68faae",
+      "protected_bech32": "addr_test1pz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3n0d3vllmyqwsx5wktcd8cc3sq835lu7drv2xwl2wywfgsf53yjn",
+      "unprotected_hex": "009493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8e337b62cfff6403a06a3acbc34f8c46003c69fe79a3628cefa9c47251",
+      "protected_hex": "089493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8e337b62cfff6403a06a3acbc34f8c46003c69fe79a3628cefa9c47251"
+    },
+    {
+      "network": "testnet",
+      "family": 1,
+      "unprotected_bech32": "addr_test1zrphkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gten0d3vllmyqwsx5wktcd8cc3sq835lu7drv2xwl2wywfgsxj90mg",
+      "protected_bech32": "addr_test1rrphkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gten0d3vllmyqwsx5wktcd8cc3sq835lu7drv2xwl2wywfgs4pak5z",
+      "unprotected_hex": "10c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f337b62cfff6403a06a3acbc34f8c46003c69fe79a3628cefa9c47251",
+      "protected_hex": "18c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f337b62cfff6403a06a3acbc34f8c46003c69fe79a3628cefa9c47251"
+    },
+    {
+      "network": "testnet",
+      "family": 2,
+      "unprotected_bech32": "addr_test1yz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzerkr0vd4msrxnuwnccdxlhdjar77j6lg0wypcc9uar5d2shsf5r8qx",
+      "protected_bech32": "addr_test19z2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzerkr0vd4msrxnuwnccdxlhdjar77j6lg0wypcc9uar5d2shs68m70v",
+      "unprotected_hex": "209493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8ec37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f",
+      "protected_hex": "289493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8ec37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f"
+    },
+    {
+      "network": "testnet",
+      "family": 3,
+      "unprotected_bech32": "addr_test1xrphkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gt7r0vd4msrxnuwnccdxlhdjar77j6lg0wypcc9uar5d2shs4p04xh",
+      "protected_bech32": "addr_test18rphkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gt7r0vd4msrxnuwnccdxlhdjar77j6lg0wypcc9uar5d2shsxjhvfa",
+      "unprotected_hex": "30c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542fc37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f",
+      "protected_hex": "38c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542fc37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f"
+    },
+    {
+      "network": "testnet",
+      "family": 6,
+      "unprotected_bech32": "addr_test1vz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzerspjrlsz",
+      "protected_bech32": "addr_test1dz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzers3kdl0z",
+      "unprotected_hex": "609493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8e",
+      "protected_hex": "689493315cd92eb5d8c4304e67b7e16ae36d61d34502694657811a2c8e"
+    },
+    {
+      "network": "testnet",
+      "family": 7,
+      "unprotected_bech32": "addr_test1wrphkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gtcl6szpr",
+      "protected_bech32": "addr_test10rphkx6acpnf78fuvxn0mkew3l0fd058hzquvz7w36x4gtc077z7r",
+      "unprotected_hex": "70c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f",
+      "protected_hex": "78c37b1b5dc0669f1d3c61a6fddb2e8fde96be87b881c60bce8e8d542f"
+    }
+  ]
+}
