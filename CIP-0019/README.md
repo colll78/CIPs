@@ -50,7 +50,7 @@ Examples of different addresses encoded in different eras:
 
 In Cardano, the sequence of bytes (after decoding with Bech32 or Base58) that represents an address  comprises two parts, a one-byte **header** and a **payload** of several bytes. Depending on the header, the interpretation and length of the payload varies. 
 
-In the header-byte, bits [7;4] indicate the type of addresses being used; we'll call these four bits the **header type**. The remaining four bits [3;0] are either unused or refer to what we'll call the **network tag**. There are currently 11 types of addresses in Cardano which we'll divide into three categories: [Shelley addresses], [stake addresses], and [Byron addresses]. 
+In the header-byte, bits [7;4] indicate the type of addresses being used; we'll call these four bits the **header type**. In the currently activated format, the remaining four bits [3;0] are either unused or refer to what we'll call the **network tag**. The proposed CIP-160 payment-address extension below reserves bit 3 for protection in specified families; it does not change the activated network definitions. There are currently 11 types of addresses in Cardano which we'll divide into three categories: [Shelley addresses], [stake addresses], and [Byron addresses].
 
 ```
   1 byte     variable length   
@@ -76,6 +76,46 @@ Network Tag (`. . . . n n n n`)   | Semantic
 `....0000`                        | Testnet(s) 
 `....0001`                        | Mainnet
 
+
+#### Proposed protected payment-address extension
+
+[CIP-160](../CIP-0160/README.md) proposes opt-in creation authorization for
+Shelley payment addresses. This section specifies the candidate byte format;
+it is not an assertion of mainnet activation or Ledger/Plutus acceptance.
+Acceptance and activation of this extension remain subject to CIP-160's
+criteria and an agreed future-era protocol version.
+
+For base types 0–3 and enterprise types 6–7, bit 3 (`0x08`) of the header is
+the proposed protection flag. Bits 1–2 remain reserved and zero; bit 0 retains
+the network meaning below. Existing high-nibble types, credential payloads and
+lengths are unchanged.
+
+| Payment low nibble (`p 0 0 n`) | Protection | Network |
+| --- | --- | --- |
+| `0000` | Unprotected | Testnet(s) |
+| `0001` | Unprotected | Mainnet |
+| `1000` | Protected | Testnet(s) |
+| `1001` | Protected | Mainnet |
+
+`1000` and `1001` in these families do not introduce network types 8 and 9.
+Network-aware code interprets protection separately from network identity.
+Other low-nibble values remain reserved. Header examples are protected base
+key/key `0x08`/`0x09` and protected enterprise script `0x78`/`0x79` on
+testnet/mainnet, respectively.
+
+Pointer types 4–5, Byron type 8, stake types 14–15, account addresses and other
+families do not support protection. Their formats/network interpretation are
+unchanged; setting `0x08` does not make them protected payment addresses.
+Protected pointers and malformed protected payloads are invalid. A protected
+address uses the existing `addr` or `addr_test` prefix and is distinct from an
+unprotected address carrying the same credentials. Unprotected examples below
+remain unchanged. The [proposed vectors](../CIP-0160/test-vectors/protected-addresses.json)
+derive protected bytes from those same examples.
+
+The annex's `PAYMENT-ADDRESS-TAG` extension applies only after this feature's
+activation. Historical-era parsers and transactions retain their existing
+acceptance domain; recognizing the candidate raw format does not establish
+transaction eligibility.
 
 #### Shelley Addresses 
 
